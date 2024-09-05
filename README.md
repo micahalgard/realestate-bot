@@ -1,5 +1,7 @@
 # Realestate Bot
 
+![realestate bot logo](./realestate-bot-logo.png "Logo")
+
 ### Install requirements
 
 ```bash
