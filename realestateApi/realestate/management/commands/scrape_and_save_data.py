@@ -69,8 +69,8 @@ class Command(BaseCommand):
             driver.switch_to.frame("bottom")
             form = driver.find_element(By.TAG_NAME, "form")
             f_table = form.find_elements(By.TAG_NAME, "td")
-            
-            parsel_id_regex = r'\d{1,10}-\d{1,10}'
+
+            parsel_id_regex = r'\d{1,10}-\d{1,10}(?:-[A-Za-z0-9]+)?'
             address_number_regex = r"Location\s+(\d+)"
             address_street_regex = r"Location\s+\d+\s+(.*)"
             parsel_id = self.match_regex(f_table[2].text, parsel_id_regex, None)
@@ -111,24 +111,26 @@ class Command(BaseCommand):
     
     def save_property(self, **kwargs):
         obj, created = Property.objects.update_or_create(
-            address_number=kwargs.get('address_number'),
-            address_street=kwargs.get('address_street'),
-            address_city="Beverly",
             parcel_id=kwargs.get('parsel_id'),
-            owner=kwargs.get('owner'),
-            zoning=kwargs.get('zoning'),
-            sale_date=kwargs.get('sale_date'),
-            sale_price=kwargs.get('sale_price'),
-            legal_reference=kwargs.get('legal_reference'),
-            seller=kwargs.get('seller'),
-            assessment_year=kwargs.get('assessment_year'),
-            land_area=kwargs.get('land_area'),
-            building_value=kwargs.get('building_value'),
-            extra_features_value=kwargs.get('extra_features_value'),
-            land_value=kwargs.get('land_value'),
-            total_value=kwargs.get('total_value'),
-            narrative_description=kwargs.get('narrative_description'),
-            last_updated=timezone.now(),
+            defaults={
+                'address_number': kwargs.get('address_number'),
+                'address_street': kwargs.get('address_street'),
+                'address_city': "Beverly",
+                'owner': kwargs.get('owner'),
+                'zoning': kwargs.get('zoning'),
+                'sale_date': kwargs.get('sale_date'),
+                'sale_price': kwargs.get('sale_price'),
+                'legal_reference': kwargs.get('legal_reference'),
+                'seller': kwargs.get('seller'),
+                'assessment_year': kwargs.get('assessment_year'),
+                'land_area': kwargs.get('land_area'),
+                'building_value': kwargs.get('building_value'),
+                'extra_features_value': kwargs.get('extra_features_value'),
+                'land_value': kwargs.get('land_value'),
+                'total_value': kwargs.get('total_value'),
+                'narrative_description': kwargs.get('narrative_description'),
+                'last_updated': timezone.now(),
+            }
         )
         return obj, created
 
@@ -141,6 +143,7 @@ class Command(BaseCommand):
             self.open_in_new_tab(driver, m)
             tabs = driver.window_handles
             driver.switch_to.window(tabs[1])
+            self.find_house_info(driver)
             driver.close()
             driver.switch_to.window(base_handle)
             
