@@ -1,0 +1,63 @@
+<form action="{% url 'realestate:submit' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>Create A property</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        
+        <label for="address_number">address number:</label><br>
+        <input type="text" id="address_number" name="address_number" value="{{ input_address_number }}"><br>
+        
+        <label for="address_street">address_street:</label><br>
+        <input type="text" id="address_street" name="address_street" value="{{ input_address_street }}"><br><br>
+        
+        <label for="address_city">address_city:</label><br>
+        <input type="text" id="address_city" name="address_city" value="{{ input_address_city }}"><br><br>
+        
+        <label for="parcel_id">parcel_id:</label><br>
+        <input type="text" id="parcel_id" name="parcel_id" value="{{ input_parcel_id }}"><br><br>
+        
+        <label for="owner">owner:</label><br>
+        <input type="text" id="owner" name="owner" value="{{ input_owner }}"><br><br>
+        
+        <label for="zoning">zoning:</label><br>
+        <input type="text" id="zoning" name="zoning" value="{{ input_zoning }}"><br><br>
+        
+        <label for="sale_date">sale_date:</label><br>
+        <input type="text" id="sale_date" name="sale_date" value="{{ input_sale_date }}"><br><br>
+        
+        <label for="sale_price">sale_price:</label><br>
+        <input type="text" id="sale_price" name="sale_price" value="{{ input_sale_price }}"><br><br>
+
+        <label for="legal_reference">legal_reference:</label><br>
+        <input type="text" id="legal_reference" name="legal_reference" value="{{ input_legal_reference }}"><br><br>
+        
+        <label for="seller">seller:</label><br>
+        <input type="text" id="seller" name="seller" value="{{ input_seller }}"><br><br>
+        
+        <label for="assessment_year">assessment_year:</label><br>
+        <input type="text" id="assessment_year" name="assessment_year" value="{{ input_assessment_year }}"><br><br>
+        
+        <label for="land_area">land_area:</label><br>
+        <input type="text" id="land_area" name="land_area" value="{{ input_land_area }}"><br><br>
+
+        <label for="building_value">building_value:</label><br>
+        <input type="text" id="building_value" name="building_value" value="{{ input_building_value }}"><br><br>
+
+        <label for="extra_features_value">extra_features_value:</label><br>
+        <input type="text" id="extra_features_value" name="extra_features_value" value="{{ input_extra_features_value }}"><br><br>
+
+        <label for="land_value">land_value:</label><br>
+        <input type="text" id="land_value" name="land_value" value="{{ input_land_value }}"><br><br>
+
+        <label for="total_value">total_value:</label><br>
+        <input type="text" id="total_value" name="total_value" value="{{ input_total_value }}"><br><br>
+
+        <label for="narrative_description">narrative_description:</label><br>
+        <input type="text" id="narrative_description" name="narrative_description" value="{{ input_narrative_description }}"><br><br>
+
+        <label for="last_updated">last_updated:</label><br>
+        <input type="text" id="last_updated" name="last_updated" value="{{ input_last_updated }}"><br><br>
+
+    </fieldset>
+    <input type="submit" value="Submit">
+</form>

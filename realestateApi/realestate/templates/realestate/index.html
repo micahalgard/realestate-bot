@@ -1,0 +1,13 @@
+{% if realestate_list %}
+<ul>
+{% for realestate in realestate_list %}
+    <li><a href="{% url 'realestate:detail' realestate.pk %}">{{ realestate.address_number }} {{ realestate.address_street }}</a></li>
+
+{% endfor %}
+<div>
+    <a href="{% url 'realestate:create' %}">create realestate</a>
+</div>
+</ul>
+{% else %}
+<p>No Realestate is here.</p>
+{% endif %}
