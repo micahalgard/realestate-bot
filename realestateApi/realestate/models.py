@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Property(models.Model):
     address_number = models.IntegerField(default=0)
     address_street = models.CharField(max_length=200)
@@ -18,6 +19,7 @@ class Property(models.Model):
     land_value = models.CharField(max_length=200)
     total_value = models.CharField(max_length=200)
     narrative_description = models.CharField(max_length=200)
-    last_updated = models.DateTimeField('date published')
+    last_updated = models.DateTimeField("date published")
+
     def __str__(self):
-        return ("%s %s" %(self.address_number, self.address_street))
+        return "%s %s" % (self.address_number, self.address_street)

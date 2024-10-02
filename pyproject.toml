@@ -1,0 +1,15 @@
+[tool.black]
+line-length = 88  # Default is 88, but you can change it
+target-version = ['py39']  # Adjust based on your Python version (e.g., 'py38', 'py39', etc.)
+include = '\.pyi?$'
+exclude = '''
+/(
+    migrations
+  | .git
+  | __pycache__
+  | build
+  | dist
+  | env
+  | venv
+)/
+'''

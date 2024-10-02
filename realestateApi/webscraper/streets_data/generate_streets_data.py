@@ -1,10 +1,12 @@
 import overpy
 import json
 
+
 def remove_duplicates(input_list):
     # Convert the list to a set to remove duplicates, then back to a list
     unique_list = list(set(input_list))
     return unique_list
+
 
 def replace_street_suffixes(input_string):
     replacements = {
@@ -20,13 +22,14 @@ def replace_street_suffixes(input_string):
         "Heights": "Hgts",
         "Square": "Sq",
         "Point": "Pt",
-        "Park": "Pk"
+        "Park": "Pk",
     }
 
     for old_suffix, new_suffix in replacements.items():
         if input_string.endswith(old_suffix):
-            input_string = input_string[:-len(old_suffix)] + new_suffix
+            input_string = input_string[: -len(old_suffix)] + new_suffix
     return input_string
+
 
 def get_beverly_streets():
     # Create an Overpass API instance
@@ -36,7 +39,7 @@ def get_beverly_streets():
     query = (
         f'area["name"="Beverly"]["admin_level"="8"]["boundary"="administrative"]["type"="boundary"]["wikidata"="Q54138"];'
         'way(area)["highway"="residential"];'
-        'out body;'
+        "out body;"
     )
 
     # Send the query to the API
@@ -51,6 +54,7 @@ def get_beverly_streets():
             street_names.append(new_street_name)
 
     return street_names
+
 
 if __name__ == "__main__":
     beverly_streets = get_beverly_streets()

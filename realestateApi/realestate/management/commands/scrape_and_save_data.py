@@ -10,14 +10,14 @@ import json
 import time
 import re
 
+
 class Command(BaseCommand):
     help = "scrape data and save to database"
 
     def attach_to_session(self, executor_url):
         driver = webdriver.Remote(
-            command_executor=executor_url,
-            options=webdriver.ChromeOptions()
-            )
+            command_executor=executor_url, options=webdriver.ChromeOptions()
+        )
         driver.implicitly_wait(1)
         return driver
 
@@ -33,22 +33,19 @@ class Command(BaseCommand):
 
     def open_in_new_tab(self, driver, element, switch_to_new_tab=True):
         # Do some actions
-        ActionChains(driver) \
-            .move_to_element(element) \
-            .key_down(Keys.COMMAND) \
-            .click() \
-            .key_up(Keys.COMMAND) \
-            .perform()
-        
+        ActionChains(driver).move_to_element(element).key_down(
+            Keys.COMMAND
+        ).click().key_up(Keys.COMMAND).perform()
+
     def match_regex(self, text, regex, group):
         match = re.search(regex, text)
         if match:
-            if(group):
+            if group:
                 return match.group(group)
             else:
                 return match.group()
         else:
-            return 
+            return
 
     ## click link
     def find_link_text(self, driver):
@@ -65,72 +62,72 @@ class Command(BaseCommand):
         return parcel_ids
 
     def find_house_info(self, driver):
-            time.sleep(1)
-            driver.switch_to.frame("bottom")
-            form = driver.find_element(By.TAG_NAME, "form")
-            f_table = form.find_elements(By.TAG_NAME, "td")
+        time.sleep(1)
+        driver.switch_to.frame("bottom")
+        form = driver.find_element(By.TAG_NAME, "form")
+        f_table = form.find_elements(By.TAG_NAME, "td")
 
-            parsel_id_regex = r'\d{1,10}-\d{1,10}(?:-[A-Za-z0-9]+)?'
-            address_number_regex = r"Location\s+(\d+)"
-            address_street_regex = r"Location\s+\d+\s+(.*)"
-            parsel_id = self.match_regex(f_table[2].text, parsel_id_regex, None)
-            address_number = int(self.match_regex(f_table[0].text, address_number_regex, 1))
-            address_street = self.match_regex(f_table[0].text, address_street_regex, 1)
-            owner = f_table[8].text
-            zoning = f_table[22].text
-            sale_date = f_table[28].text
-            sale_price = f_table[32].text
-            legal_reference = f_table[30].text
-            seller = f_table[34].text
-            assessment_year = f_table[43].text
-            land_area = f_table[51].text
-            building_value = f_table[45].text
-            extra_features_value = f_table[49].text
-            land_value = f_table[53].text
-            total_value = f_table[57].text
-            narrative_description = f_table[59].text
+        parsel_id_regex = r"\d{1,10}-\d{1,10}(?:-[A-Za-z0-9]+)?"
+        address_number_regex = r"Location\s+(\d+)"
+        address_street_regex = r"Location\s+\d+\s+(.*)"
+        parsel_id = self.match_regex(f_table[2].text, parsel_id_regex, None)
+        address_number = int(self.match_regex(f_table[0].text, address_number_regex, 1))
+        address_street = self.match_regex(f_table[0].text, address_street_regex, 1)
+        owner = f_table[8].text
+        zoning = f_table[22].text
+        sale_date = f_table[28].text
+        sale_price = f_table[32].text
+        legal_reference = f_table[30].text
+        seller = f_table[34].text
+        assessment_year = f_table[43].text
+        land_area = f_table[51].text
+        building_value = f_table[45].text
+        extra_features_value = f_table[49].text
+        land_value = f_table[53].text
+        total_value = f_table[57].text
+        narrative_description = f_table[59].text
 
-            self.save_property(
-                address_number=address_number,
-                address_street=address_street,
-                parsel_id=parsel_id,
-                owner=owner,
-                zoning=zoning,
-                sale_date=sale_date,
-                sale_price=sale_price,
-                legal_reference=legal_reference,
-                seller=seller,
-                assessment_year=assessment_year,
-                land_area=land_area,
-                building_value=building_value,
-                extra_features_value=extra_features_value,
-                land_value=land_value,
-                total_value=total_value,
-                narrative_description=narrative_description
-            )
-    
+        self.save_property(
+            address_number=address_number,
+            address_street=address_street,
+            parsel_id=parsel_id,
+            owner=owner,
+            zoning=zoning,
+            sale_date=sale_date,
+            sale_price=sale_price,
+            legal_reference=legal_reference,
+            seller=seller,
+            assessment_year=assessment_year,
+            land_area=land_area,
+            building_value=building_value,
+            extra_features_value=extra_features_value,
+            land_value=land_value,
+            total_value=total_value,
+            narrative_description=narrative_description,
+        )
+
     def save_property(self, **kwargs):
         obj, created = Property.objects.update_or_create(
-            parcel_id=kwargs.get('parsel_id'),
+            parcel_id=kwargs.get("parsel_id"),
             defaults={
-                'address_number': kwargs.get('address_number'),
-                'address_street': kwargs.get('address_street'),
-                'address_city': "Beverly",
-                'owner': kwargs.get('owner'),
-                'zoning': kwargs.get('zoning'),
-                'sale_date': kwargs.get('sale_date'),
-                'sale_price': kwargs.get('sale_price'),
-                'legal_reference': kwargs.get('legal_reference'),
-                'seller': kwargs.get('seller'),
-                'assessment_year': kwargs.get('assessment_year'),
-                'land_area': kwargs.get('land_area'),
-                'building_value': kwargs.get('building_value'),
-                'extra_features_value': kwargs.get('extra_features_value'),
-                'land_value': kwargs.get('land_value'),
-                'total_value': kwargs.get('total_value'),
-                'narrative_description': kwargs.get('narrative_description'),
-                'last_updated': timezone.now(),
-            }
+                "address_number": kwargs.get("address_number"),
+                "address_street": kwargs.get("address_street"),
+                "address_city": "Beverly",
+                "owner": kwargs.get("owner"),
+                "zoning": kwargs.get("zoning"),
+                "sale_date": kwargs.get("sale_date"),
+                "sale_price": kwargs.get("sale_price"),
+                "legal_reference": kwargs.get("legal_reference"),
+                "seller": kwargs.get("seller"),
+                "assessment_year": kwargs.get("assessment_year"),
+                "land_area": kwargs.get("land_area"),
+                "building_value": kwargs.get("building_value"),
+                "extra_features_value": kwargs.get("extra_features_value"),
+                "land_value": kwargs.get("land_value"),
+                "total_value": kwargs.get("total_value"),
+                "narrative_description": kwargs.get("narrative_description"),
+                "last_updated": timezone.now(),
+            },
         )
         return obj, created
 
@@ -146,15 +143,14 @@ class Command(BaseCommand):
             self.find_house_info(driver)
             driver.close()
             driver.switch_to.window(base_handle)
-            
-        
+
     def handle(self, *args, **options):
-        browser = webdriver.Chrome() 
+        browser = webdriver.Chrome()
         executor_url = browser.command_executor._url
         driver = self.attach_to_session(executor_url=executor_url)
-        BASE_URL = 'https://beverly.patriotproperties.com'
+        BASE_URL = "https://beverly.patriotproperties.com"
         driver.get(BASE_URL)
-        with open('webscraper/streets_data/street_sample.json', 'r') as json_file:
+        with open("webscraper/streets_data/street_sample.json", "r") as json_file:
             data = json.load(json_file)
         for street in data:
             self.execut_search(driver, street)
